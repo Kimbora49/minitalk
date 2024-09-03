@@ -6,12 +6,39 @@
 /*   By: tmazan <tmazan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 17:33:30 by tmazan            #+#    #+#             */
-/*   Updated: 2024/09/01 18:15:25 by tmazan           ###   ########.fr       */
+/*   Updated: 2024/09/03 17:58:06 by tmazan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server.h"
+#include <signal.h>
 #include <unistd.h>
+
+void signalhandler(int pid)
+{
+    static char binofchar[9];
+    int i;
+
+    i = 0;
+    while (i <= 8)
+    {
+        binofchar[i] = '0';
+        i++;
+    }
+    binofchar[9] = '\0';
+    i = 0;
+    while (binofchar[i])
+    {
+        if (pid == SIGUSR1)
+            binofchar[i] = '0';
+        else if(pid == SIGUSR2)
+            binofchar[i] = '1';
+        i++;
+    }
+
+    //convert binofchar to int
+    //print the char corresponding to the int value 
+}
 
 int main(void)
 {
@@ -21,9 +48,11 @@ int main(void)
     ft_putstr_fd("server ID : ", 1);
     ft_putnbr_fd(id, 1);
     ft_putchar_fd('\n', 1);
-    while()
+    signal(SIGUSR1, signalhandler);
+    signal(SIGUSR2, signalhandler);
+    while(1)
     {
-        printf("%c", ft_binary_to_char(char *));
+        pause();
     }
     return (0);
 }

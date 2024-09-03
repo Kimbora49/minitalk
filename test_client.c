@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   training.c                                         :+:      :+:    :+:   */
+/*   test_client.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmazan <tmazan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/24 16:30:26 by tmazan            #+#    #+#             */
-/*   Updated: 2024/09/03 14:17:55 by tmazan           ###   ########.fr       */
+/*   Created: 2024/09/03 16:50:25 by tmazan            #+#    #+#             */
+/*   Updated: 2024/09/03 17:19:55 by tmazan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
+#include <signal.h>
+#include <stdlib.h>
 
 int main(int argc, char **argv)
 {
     (void) argc;
-    (void) argv;
-    int ret_fork;
-    
-    ret_fork = fork();
-    
-    if (ret_fork == 0)
-        printf("\npid of child : %d\n", getpid());
-    else
-    {
-        printf("pid of parent : %d\n", getpid());
-        printf("id of parent : %d\n", ret_fork);
-    }
+
+    if (argv[2][0] == '0')
+        kill(atoi(argv[1]), SIGUSR1);
+    else if (argv[2][0] == '1')
+        kill(atoi(argv[1]), SIGUSR2);
+    return (0);
 }
