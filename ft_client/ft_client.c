@@ -6,38 +6,35 @@
 /*   By: tmazan <tmazan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:48:26 by tmazan            #+#    #+#             */
-/*   Updated: 2024/09/04 17:45:08 by tmazan           ###   ########.fr       */
+/*   Updated: 2024/09/05 17:19:17 by tmazan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<unistd.h>
-#include<stdlib.h>
-#include<signal.h>
-#include<stdio.h>
+#include "../minitalk.h"
 
-size_t	ft_strlen(const char *s)
+bool error_gestion(int argc, char **argv)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+    i = 0;
+    if (argc != 3)
+    {
+        write(2, "Error detected, argument format should be [pid] [text]\n", 55);
+        return (0);
+    }
+    i = 0;
+    while(argv[1][i])
+    {
+        if (!(argv[1][i] >= '0' && argv[1][i] <= '9'))
+        {
+            write(2, "Error detected, a pid must contain only numbers\n", 49);
+            return (0);
+        }
+        i++;
+    }
+    return (1);
 }
 
-size_t	ft_strcpy(char *dst, const char *src)
-{
-	size_t	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
-}
 char *ft_char_to_binary(char c)
 {
     int j;
@@ -45,7 +42,7 @@ char *ft_char_to_binary(char c)
 
     j = 7;
     while(c > 0)
-    {
+    { 
         if (c % 2 == 1)
             storage[j] = '1';
         else if (c % 2 == 0)
@@ -62,49 +59,36 @@ char *ft_char_to_binary(char c)
     return (storage);
 }
 
-int main(int argc, char **argv) // client -> 
+void convert_n_send(char **argv)
 {
     int i;
     int j;
     char binofchar[9];
 
-    if (argc != 3)
-    {
-        write(2, "Error detected, argument format should be [pid] [text]\n", 55);
-        return (0);
-    }
-    i = 0;
-    while(argv[1][i])
-    {
-        if (!(argv[1][i] >= '0' && argv[1][i] <= '9'))
-        {
-            write(2, "Error detected, a pid must contain only numbers\n", 49);
-            return (0);
-        }
-        i++;
-    }
     j = 0;
     i = 0;
     while (argv[2][j] != '\0')
     {
+        i = 0;
         ft_strcpy(binofchar, ft_char_to_binary(argv[2][j]));
         while (binofchar[i])
         {
             if(binofchar[i] == '0')
-            {
-                printf("0");
-                kill(atoi(argv[1]), SIGUSR1);
-            }
+                kill(ft_atoi(argv[1]), SIGUSR1); // envoi le signal SIGUSR1 via le pid envoyé par l'user (argv[1])
             else if(binofchar[i] == '1')
-            {
-                printf("1");
-                kill(atoi(argv[1]), SIGUSR2);
-            }
+                kill(ft_atoi(argv[1]), SIGUSR2);
+            usleep(400); // sleep 400usecs pour etre sur que le client a traité le bit reçu
             i++;
         }
         j++;
     }
-    
-    // envoyer via le pid;
+}
+
+
+int main(int argc, char **argv)
+{
+    if (error_gestion(argc, argv) == 0)
+        return (0);
+    convert_n_send(argv);
     return (0);
 }

@@ -1,39 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_binary_to_char.c                                :+:      :+:    :+:   */
+/*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmazan <tmazan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/01 15:30:08 by tmazan            #+#    #+#             */
-/*   Updated: 2024/09/01 16:10:37 by tmazan           ###   ########.fr       */
+/*   Created: 2024/08/30 18:58:14 by tmazan            #+#    #+#             */
+/*   Updated: 2024/09/05 17:21:56 by tmazan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<unistd.h>
+#ifndef SERVER_H
+#   define SERVER_H
 
-char ft_binary_to_char(char *s)
-{
-    int somme;
-    int i;
-    int val_bi;
+#include<unistd.h> //write
+#include<signal.h> //signal
+#include<stdbool.h> //bool
+#include<stddef.h> //size_t
 
-    i = 0;
-    val_bi = 128;
-    somme = 0;
-    while(s[i])
-    {
-        if(s[i] == '1')
-            somme += val_bi;
-        val_bi /= 2;
-        i++;
-    }
-    return (somme);
-}
-#include <stdio.h>
+//prototype
+int    ft_atoi(const char *nptr);
+size_t	ft_strlen(const char *s);
+size_t	ft_strcpy(char *dst, const char *src);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putnbr_fd(int n, int fd);
 
-int main(void)
-{
-    printf("%c\n", ft_binary_to_char("01100011"));
-    return (0);
-}
+#endif
