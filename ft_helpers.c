@@ -6,7 +6,7 @@
 /*   By: tmazan <tmazan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:16:33 by tmazan            #+#    #+#             */
-/*   Updated: 2024/09/05 17:15:12 by tmazan           ###   ########.fr       */
+/*   Updated: 2024/10/08 10:14:05 by tmazan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
+
 size_t	ft_strcpy(char *dst, const char *src)
 {
 	size_t	i;
@@ -61,24 +62,24 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putchar_fd(n + 48, fd);
 }
 
-int    ft_atoi(const char *nptr)
+int	ft_atoi(const char *nptr)
 {
-    int    nbr;
-    int    signe;
-    int    i;
+	int	nbr;
+	int	signe;
+	int	i;
 
-    nbr = 0;
-    signe = 1;
-    i = 0;
-    while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
-        i++;
-    if (nptr[i] == '-' || nptr[i] == '+')
-    {
-        if (nptr[i] == '-')
-            signe *= (-1);
-        i++;
-    }
-    while (nptr[i] >= 48 && nptr[i] <= 57)
-        nbr = (nbr * 10) + (nptr[i++] - 48);
-    return (nbr * signe);
+	nbr = 0;
+	signe = 1;
+	i = 0;
+	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		if (nptr[i] == '-')
+			signe *= (-1);
+		i++;
+	}
+	while (nptr[i] >= 48 && nptr[i] <= 57)
+		nbr = (nbr * 10) + (nptr[i++] - 48);
+	return (nbr * signe);
 }
